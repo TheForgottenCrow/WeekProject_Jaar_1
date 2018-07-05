@@ -3,7 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum e_MenuState
+{
+    Passport_Idle = 0,
+    Passport_Open,
+    Passport_OpenIdle,
+    Passport_HowToPlay_Open,
+    Passport_HowToPlay_close,
+    Passport_Settings_Open,
+    Passport_Settings_close,
+    Passport_Credits_Open,
+    Passport_Credits_close,
+    Passport_Stamp
+
+
+}
+
 public class MainMenu : MonoBehaviour {
+
+    [SerializeField]
+    GameObject m_MainPanel, m_HowToPlayPanel, m_SettingsPanel, m_CreditsPanel;
 
     [SerializeField]
     private Animator m_Animator;
@@ -29,7 +48,7 @@ public class MainMenu : MonoBehaviour {
         {
             if (m_Animator.GetInteger("State") == 0)
             {
-                SetAnimationState(1);
+                SetAnimationState(e_MenuState.Passport_Open);
             }
         }
 
@@ -37,39 +56,84 @@ public class MainMenu : MonoBehaviour {
 
     }
 
-    public void SetAnimationState(int state)
+    // Level Loader
+    public void LoadLevel()
     {
-        m_Animator.SetInteger("State", state);
+        SceneManager.LoadScene(1);
     }
 
+
+    // Animation Handler
+    public void SetAnimationState(e_MenuState state)
+    {
+        m_Animator.SetInteger("State", (int)state);
+    }
+
+
+    // Set HandPosition to New Position
     public void SetHandPos(int pos)
     {
         Debug.Log("lerp");
         m_Destination = m_HandPositions[pos].transform;
     }
 
+    // Animation event
     public void ActivateMenu()
     {
         m_MenuPanel.SetActive(true);
         m_Destination = m_HandPositions[1].transform;
     }
 
+    //Buttons
     public void ButtonStart()
     {
-        SceneManager.LoadScene(1);
+        SetAnimationState(e_MenuState.Passport_Stamp);
+        DeactivatePanels();
     }
     public void ButtonHowToPlay()
     {
-        Debug.Log("HowToPLay");
+        SetAnimationState(e_MenuState.Passport_HowToPlay_Open);
+        DeactivatePanels();
+        m_HowToPlayPanel.SetActive(true);
     }
     public void ButtonSetting()
     {
-        Debug.Log("Settings");
+        SetAnimationState(e_MenuState.Passport_Settings_Open);
+        DeactivatePanels();
+        m_SettingsPanel.SetActive(true);
     }
     public void ButtonCredits()
     {
-        Debug.Log("Credits");
+        SetAnimationState(e_MenuState.Passport_Credits_Open);
+        DeactivatePanels();
+        m_CreditsPanel.SetActive(true);
     }
+
+    public void Back(int menuState)
+    {
+        DeactivatePanels();
+        m_MainPanel.SetActive(true);
+
+        switch ( (e_MenuState)menuState)
+        {
+            
+            case e_MenuState.Passport_HowToPlay_close:
+                SetAnimationState(e_MenuState.Passport_HowToPlay_close);
+                break;
+           
+            case e_MenuState.Passport_Settings_close:
+                SetAnimationState(e_MenuState.Passport_Settings_close);
+                break;
+      ;
+            case e_MenuState.Passport_Credits_close:
+                SetAnimationState(e_MenuState.Passport_Credits_close);
+                break;
+            
+            default:
+                break;
+        }
+    }
+
     public void ButtonExit()
     {
 #if UNITY_EDITOR
@@ -79,4 +143,21 @@ public class MainMenu : MonoBehaviour {
 #endif
     }
 
+
+
+// Deactivates all panels
+public void DeactivatePanels()
+    {
+        m_MainPanel.SetActive(false);
+        m_HowToPlayPanel.SetActive(false);
+        m_SettingsPanel.SetActive(false);
+        m_CreditsPanel.SetActive(false);
+    }
+
+
+
 }
+
+
+
+
