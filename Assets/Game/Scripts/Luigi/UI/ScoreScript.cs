@@ -23,7 +23,7 @@ public class ScoreScript : MonoBehaviour
     }
     void Update()
     {
-        Health = m_Player.GetComponent<Player>().m_PlayerHealth;
+        Health = m_Player.GetComponent<PlayerController>().m_PlayerHealth;
         if (Health <= 0)
         {
             m_IsAlive = false;
