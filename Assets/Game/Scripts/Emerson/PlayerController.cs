@@ -4,6 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+public enum PlayerState
+{
+    windup,
+    walking,
+    jumping
+}
+
 public class PlayerController : MonoBehaviour {
 
     public float moveSpeed;
@@ -17,9 +24,12 @@ public class PlayerController : MonoBehaviour {
     private Collider2D myCollider;
 
     private Animator myAnimator;
+    public int playerState;
 
     public float m_PlayerHealth;
     public Vector3 respawnPoint;
+
+    private PlayerState state;
 
     //[SerializeField]
     private Image m_HealthBar;
@@ -52,6 +62,18 @@ public class PlayerController : MonoBehaviour {
         }
         myAnimator.SetFloat("Speed", myRigidbody.velocity.x);
         myAnimator.SetBool("Grounded", grounded);
+        myAnimator.SetInteger("State", (int)state);
+
+        if (grounded)
+        {
+            state = PlayerState.windup;
+        }
+        
+        if (!grounded)
+        {
+            state = PlayerState.jumping;
+        }
+        
 	}
     private void OnTriggerEnter2D(Collider2D other)
     {
