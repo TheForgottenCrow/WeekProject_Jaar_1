@@ -5,7 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Game/Scenes/Jefta/Menu.unity
+    guid: 32591c55039edd74a91b0dc3ea40b78e
+  - enabled: 1
+    path: Assets/Game/Scenes/Emmertje/Em.unity
+    guid: cb08adbfd3d4c47448d02d1b77946bb1
+  - enabled: 1
+    path: Assets/Game/Scenes/Jefta/DeathScreen.unity
+    guid: d569c9a2ab809fb409a22c32640d53a9
   m_configObjects: {}
